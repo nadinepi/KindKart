@@ -1,0 +1,107 @@
+//Get current domain
+var domain = window.location.hostname;
+domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+
+
+chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
+    //response from the database (background.html > firebase.js)
+    parseCoupons(response.data, domain);
+});
+
+var submitCoupon = function(code, desc, domain){
+    console.log('submit coupon', {code: code, desc: desc, domain: domain});
+    chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
+        submitCoupon_callback(response.data, domain);
+    });
+}
+
+var submitCoupon_callback = function(resp, domain){
+    console.log('Resp:', resp);
+    document.querySelector('._submit-overlay').style.display='none';
+    alert('Coupon Submitted!');
+}
+var parseCoupons = function(coupons, domain) {
+
+    try{
+        var couponHTML = '';
+        for (var key in coupons){
+            var coupon = coupons[key];
+            couponHTML += '<li><span class="code">'+coupon.code+'</span>'
+            +'<p>'+coupon.description+'</p></li>';
+    }
+    if(couponHTML ==''){
+        couponHTML = '<p>No coupons found</p>';
+    }
+
+    var couponDisplay = document.createElement('div');
+    couponDisplay.className = '_coupon__list';
+    couponDisplay.innerHTML = '<div class="submit-button">Submit Coupon</div>'
+    +'<h1>KindKart</h1><p>List of available coupons for <strong>'+domain+'</strong></p>'
+    +'<p style="font-style:italic;">Click any coupon to copy</p>'
+    +'<ul>'+couponHTML+'</ul>';
+    couponDisplay.style.display = 'none';
+    document.body.appendChild(couponDisplay);
+
+    var couponButton = document.createElement('div');
+    couponButton.className = '_coupon__button';
+    couponButton.innerHTML = 'K';
+    document.body.appendChild(couponButton);
+
+    var couponSubmitOverlay = document.createElement('div');
+    couponSubmitOverlay.className = '_submit-overlay';
+    couponSubmitOverlay.innerHTML = '<span class="close">close</span>'
+    +'<h3>Submit a coupon for this site</h3>'
+    +'<div></label>Code:</label><input type="text" class="code"/></div>'
+    +'<div><label>Description:</label><input type="text" class="desc"/></div>'
+    +'<div><button class="submit-coupon">Submit Coupon</button></div>'
+    couponSubmitOverlay.style.display = 'none';
+    document.body.appendChild(couponSubmitOverlay);
+
+    createEvents();
+
+    }catch(e){
+        console.log('no coupons found', e);
+    }
+}
+
+var copyToClipboard = function(str){
+    var input = document.createElement('textarea');
+    input.innerHTML = str;
+    document.body.appendChild(input);
+    input.select();
+    var result = document.execCommand('copy');
+    document.body.removeChild(input);
+    return result;
+}
+
+var createEvents = function(){
+
+    document.querySelectorAll('._coupon__list .code').forEach(codeItem => {
+        codeItem.addEventListener('click', event=> {
+            var codeStr = codeItem.innerHTML;
+            copyToClipboard(codeStr);
+        });
+    });
+
+    document.querySelector('._submit-overlay .close').addEventListener('click', function(event){
+        document.querySelector('._submit-overlay').style.display = 'none';
+    });
+
+    document.querySelector('._coupon__list .submit-button').addEventListener('click', function(event){
+        document.querySelector('._submit-overlay').style.display = 'block';
+    });
+
+    document.querySelector('._submit-overlay .submit-coupon').addEventListener('click', function(event){
+        var code = document.querySelector('._submit-overlay .code').value;
+        var desc = document.querySelector('._submit-overlay .desc').value;
+        submitCoupon(code, desc, window.domain);
+    });
+
+    document.querySelector('._coupon__button').addEventListener('click', function(event){
+        if(document.querySelector('._coupon__list').style.display == 'block'){
+            document.querySelector('._coupon__list').style.display = 'none';
+        }else{
+            document.querySelector('._coupon__list').style.display = 'block';
+        }
+    });
+}
