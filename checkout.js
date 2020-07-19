@@ -4,7 +4,6 @@ domain = domain.replace('http://','').replace('https://','').replace('www.','').
 var brand = "this Company";
 var overall = "N/A";
 
-
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
     //response from the database (background.html > firebase.js)
     parseCoupons(response.data, domain);
@@ -79,44 +78,6 @@ var formatRatings = function(domain){
 var str1 = formatRatings(domain);
 
 
-var ffDomain = window.location.href;
-
-var slashList = ffDomain.split("/");
-var slash = slashList[slashList.length-1];
-var searchTerm = function(slash){
-    var ins = true;
-    var k = ["1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "="];
-    for (klen in k +1){
-        while (ins == true){
-            var m = slash.indexOf(k[klen]);
-            var newTerm = slash.replace(k[klen],"");
-            slash = newTerm
-            if (m==-1){
-                ins = false;
-            }
-
-        }
-        ins=true;
-    }
-    var g = ["-", "%", "_"];
-    for (glen in g +1){
-        while (ins == true){
-            var m = slash.indexOf(g[glen]);
-            var newTerm = slash.replace(g[glen],"+");
-            slash = newTerm
-            if (m==-1){
-                ins = false;
-            }
-
-        }
-        ins=true;
-    }
-
-
-    return newTerm.substr(0,45);
-}
-
-
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
     chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
@@ -149,53 +110,39 @@ var parseCoupons = function(coupons, domain) {
 
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
-    var words = searchTerm(slash);
 
+    if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #45BF77">This company has satisfactory ethics! :)</p></div>'
+        +'<div id="clearfix"></div><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<p id="instruct">Click any coupon to copy</p>'
+        +'<ul>'+couponHTML+'</ul>'
+        +'<div class="submit-button">Submit Coupon</div>';
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+
+    }
+    else {
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #EF4C4C"><br><br>This company does not have satisfactory ethics. :( Try to limit your spending here...</p></div>'
+        +'<div id="clearfix"></div><p> If not, below are some coupons for <strong>'+domain+'</strong>. After you save, pay it forward to a charity of your choice!</p>'
+        +'<br><p style="font-size: 13px">We suggest the <a href="https://unfoundation.org/action-step/donation/give-to-protect-global-progress/step-one-select-gift-amount">UN Foundation Charity</a>, which helps the world to accomplish Sustainable Development Goals across interconnected issues, including climate, health, gender equality, human rights, data and technology, peace, and humanitarian response.</p>'
+        +'<p id="instruct">Click any coupon to copy</p>'
+        +'<ul>'+couponHTML+'</ul>'
+        +'<div id="submit-button">Submit Coupon</div>';
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+    }
     
-    if (overall == "N/A") {
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
-    else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>Good website! Alternatives just in case...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
-    else{
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>Uh oh. You may want to look at alternatives...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>Or give back by donating coupons at checkout!</p>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
 
     var couponSubmitOverlay = document.createElement('div');
     couponSubmitOverlay.className = '_submit-overlay';
     couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
     +'<h3>Submit a coupon for this site</h3>'
-    +'<div></label>Code:</label><input type="text" class="code"/></div>'
-    +'<div><label>Description:</label><input type="text" class="desc"/></div>'
+    +'<div></label>Code:</label><input type="text" class="code"/></div><br>'
+    +'<div><label>Description:</label><input type="text" class="desc"/></div><br>'
     +'<div><button class="submit-coupon">Submit Coupon</button></div>'
     couponSubmitOverlay.style.display = 'none';
     document.body.appendChild(couponSubmitOverlay);
@@ -230,7 +177,7 @@ var createEvents = function(){
         document.querySelector('._submit-overlay').style.display = 'none';
     });
 
-    document.querySelector('._coupon__list .submit-button').addEventListener('click', function(event){
+    document.querySelector('._coupon__list #submit-button').addEventListener('click', function(event){
         document.querySelector('._submit-overlay').style.display = 'block';
     });
 
