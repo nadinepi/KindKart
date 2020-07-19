@@ -84,13 +84,13 @@ var ffDomain = window.location.href;
 
 var slashList = ffDomain.split("/");
 var slash = slashList[slashList.length-1];
+
 var searchTerm = function(slash){
     var ins = true;
-    var k = ["-", "1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "_"];
+    var k = ["1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "="];
     for (klen in k +1){
         while (ins == true){
             var m = slash.indexOf(k[klen]);
-
             var newTerm = slash.replace(k[klen],"");
             slash = newTerm
             if (m==-1){
@@ -100,8 +100,22 @@ var searchTerm = function(slash){
         }
         ins=true;
     }
+    var g = ["-", "%", "_"];
+    for (glen in g +1){
+        while (ins == true){
+            var m = slash.indexOf(g[glen]);
+            var newTerm = slash.replace(g[glen],"+");
+            slash = newTerm
+            if (m==-1){
+                ins = false;
+            }
 
-    return newTerm;
+        }
+        ins=true;
+    }
+
+
+    return newTerm.substr(0,45);
 }
 
 
