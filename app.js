@@ -1,6 +1,8 @@
 //Get current domain
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+var brand;
+
 
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
     //response from the database (background.html > firebase.js)
@@ -60,18 +62,20 @@ var formatRatings = function(domain){
     }
     else{
       var r = getRatings(domain);
-      str1 = "Brand: " + r[0] +"\n"
-      +"Overall: " + r[1] +"\n"
-      +"Worker Empowerment: " + r[2]+"\n"
-      +"Supplier Relations: " + r[3]+"\n"
-      +"Transparency: " + r[4]+"\n"
-      +"Enviromental Sustainability: " + r[5]+"\n"
-      +"Policies: " + r[6]+"\n"
+      str1 = "Overall: " + r[1] +"<br>"
+      +"Worker Empowerment: " + r[2]+"<br>"
+      +"Supplier Relations: " + r[3]+"<br>"
+      +"Transparency: " + r[4]+"<br>"
+      +"Enviromental Sustainability: " + r[5]+"<br>"
+      +"Policies: " + r[6]+"<br>"
+
+      brand = r[0];
     }
     return str1;
 }
 
 var str1 = formatRatings(domain);
+
 
 
 var submitCoupon = function(code, desc, domain){
@@ -106,7 +110,7 @@ var parseCoupons = function(coupons, domain) {
 
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
-    couponDisplay.innerHTML = '<h1>KindKart</h1><p>Ethical Rating for <strong>'+domain+'</strong></p>'
+    couponDisplay.innerHTML = '<h1>KindKart</h1><p>Ethical Rating for <strong>'+brand+'</strong></p>'
     +'<p>'+str1+'</p><hr>'
     +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
     +'<p id="instruct">Click any coupon to copy</p>'
