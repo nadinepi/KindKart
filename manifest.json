@@ -17,7 +17,7 @@
         "matches": ["<all_urls>"],
         "exclude_globs":["*checkout*"],
         "js": ["app.js"],
-        "css": ["coupon.css"],
+        "css": ["main.css"],
         "run_at": "document_end"
         },
         {

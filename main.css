@@ -131,7 +131,6 @@
     background-size: 80px;
     position: fixed;
     padding:15px;
-    cursor:pointer; 
     top:60px; right:5px;
     z-index:999999999; 
     overflow:hidden;
@@ -152,9 +151,32 @@
 ._coupon__list li p{
     text-align:left;
     margin-top: 10px;
-    margin:0;
+    margin:2px;
     text-transform: none;
     font-size:14px;
+}
+
+._coupon__list a{
+    background-color: #955dbd;
+    text-decoration: none;
+    color: white;
+    padding: 0.5em 1.0em;
+    margin: 5px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+._coupon__list a:hover {
+    background-color: #8344af;
+}
+
+._coupon__list a:active {
+    background-color: #57227c;
+}
+
+._coupon__list a:hover {
+    cursor: pointer;
 }
 
 ._coupon__button{
