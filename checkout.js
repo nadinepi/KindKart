@@ -2,7 +2,7 @@
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 var brand = "this Company";
-
+var overall = "N/A";
 
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
     //response from the database (background.html > firebase.js)
@@ -70,6 +70,7 @@ var formatRatings = function(domain){
       +"Policies: " + r[6]+"<br>"
 
       brand = r[0];
+      overall = r[1];
     }
     return str1;
 }
@@ -110,14 +111,31 @@ var parseCoupons = function(coupons, domain) {
 
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
-    couponDisplay.innerHTML = '<h1>KindKart2</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-    +'<p id="ethics">'+str1+'</p><hr>'
-    +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-    +'<p id="instruct">Click any coupon to copy</p>'
-    +'<ul>'+couponHTML+'</ul>'
-    +'<div class="submit-button">Submit Coupon</div>';
-    couponDisplay.style.display = 'block';
-    document.body.appendChild(couponDisplay);
+
+    if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div class="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div class="rightcol"><p id="message">This company has satisfactory ethics! :)</p></div>'
+        +'<hr><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<p id="instruct">Click any coupon to copy</p>'
+        +'<ul>'+couponHTML+'</ul>'
+        +'<div class="submit-button">Submit Coupon</div>';
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+
+    }
+    else {
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div class="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div class="rightcol"><p id="message">This company does not have satisfactory ethics. Try to limit your spending here :(</p></div>'
+        +'<hr><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<p id="instruct">Click any coupon to copy</p>'
+        +'<ul>'+couponHTML+'</ul>'
+        +'<div class="submit-button">Submit Coupon</div>';
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+    }
+    
 
     var couponSubmitOverlay = document.createElement('div');
     couponSubmitOverlay.className = '_submit-overlay';
