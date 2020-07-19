@@ -159,7 +159,7 @@ var parseCoupons = function(coupons, domain) {
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'block';
+        couponDisplay.style.display = 'none';
         document.body.appendChild(couponDisplay);
     }
     else{
