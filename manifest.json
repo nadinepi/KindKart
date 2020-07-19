@@ -20,6 +20,12 @@
         "run_at": "document_end"
         }
     ],
+    "icons": {  "16" : "images/smallcart.png",
+                "48" : "images/cart.png",
+                "128": "images/KindKartLogo.png"},
+
     "manifest_version": 2,
+    "web_accessible_resources": ["images/*"],
+
     "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
 }

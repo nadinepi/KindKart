@@ -2,11 +2,77 @@
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 
-
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
     //response from the database (background.html > firebase.js)
     parseCoupons(response.data, domain);
 });
+
+var getRatings = function(domain) {
+    var ratings=[
+        ["Abercrombie & Fitch","D-" , "B-" ,"D-" , "A" ,"F" ,"F","abercrombie.com"],
+        [ "adidas","A" ,"A+" ,"A+" ,"D-" ,"B-" , "B-","adidas.ca"],
+        ["ALDI", "B-" ,"A+" ,"A-" ,"B+" ,"D-" , "D-","aldi.us"],
+        ["Ally Fashion","F" ,"F ","F" ,"B-" ,"F" , "F","allyfashion.com"],
+        [ "Anthea Crawford","C" ,"A+" ,"D+" ,"F" ,"C-" , "C-","antheacrawford.com.au"],
+            ["APG & Co","A" ,"A+" ,"A+" ,"C-" ,"B-" , "B-","apgandco.com"],
+            ["Arcadia Group","-C+" ,"A+" ,"B" ,"A" ,"D- ", "D-","arcadiagroup.co.uk"],
+            ['AS Colour','A' ,'A+' ,'A+' ,'C-' ,'B-' , 'B-','ascolour.com'],
+            ['ASICS','-C' ,'A' ,'B' ,'A-' ,'D-' , 'D-','asics.com'],
+            ['ASOS','B' ,'A+' ,'A-' ,'C' ,'C-' ,'C-','asos.com'],
+            ['Baby City','F' ,'F' ,'F' ,'B' ,'F' , 'F','babycity.co.za'],
+            ['Bardot','D+' ,'A-' ,'C-' ,'F' ,'F' , 'F','bardot.com'],
+            ['Barkers Clothing','C+' ,'A+' ,'B+' ,'D-' ,'D' , 'D','barkersonline.co.nz'],
+            ['Bec and Bridge','F' ,'F' ,'F' ,'D+' ,'F' , 'F','becandbridge.com'],
+            ['Ben Sherman','D+','A-' ,'C-' ,'F' ,'D-' , 'D-','bensherman.com'],
+            ['Betts Group','D' ,'A-' ,'D+' ,'C' ,'F' , 'F','betts.com.au'],
+            ['Big W','B' ,'A+' ,'B+' ,'D' ,'D+' , 'D+','bigw.com.au'],
+            ['Blue Illusion Boardriders','C+' ,'A+' ,'C+' ,'C+' ,'D' , 'D','blueillusion.com'],
+            ['Forever 21','F' ,'B' ,'F' ,'F' ,'F' , 'F','forever21.com'],
+            ['Fruit of the Loom','B' ,'A+' ,'A-' ,'C+' ,'C-' , 'C-','fruit.com'],
+            ['Gap Inc.','A+' ,'A+' ,'A+' ,'A+' ,'A+' ,'A+','gapcanada.ca'],
+            ['Gildan Activewear','D-' ,'A+' ,'F' ,'F' ,'F' ,'F','gildan.com'],
+            ['H&M','A-' ,'A+' ,'A' ,'A' ,'C+' , 'C+','hm.com'],
+            ['Hanesbrands','B+' ,'A+' ,'A-' ,'B' ,'C+' , 'C+','hanes.com'],
+            ['Huffer','C' ,'A+' ,'B-' ,'C+' ,'D-' ,'D-','huffer.co.nz'],
+            ['Hugo Boss Group','B-' ,'A+' ,'A' ,'C-' ,'D' , 'D','hugoboss.com'],
+            ['Kmart' ,'A' ,'A+' ,'A+' ,'A-' ,'C-' , 'C-','kmart.com'],
+            ['Lacoste','B' ,'A+' ,'B+' ,'B+' ,'F' , 'F','lacoste.com'],
+            ['Levi Strauss & Co.','C-' ,'A+' ,'C-' ,'D+' ,'D-' , 'D-','levistrauss.com'],
+            ['Liminal Apparel','B' ,'A+' ,'A-' ,'B-' ,'A+' , 'A+','liminal.org.nz'],
+            ['Lowes','C+' ,'A+' ,'B-' ,'B-' ,'F' , 'F','lowes.ca'],
+            ['Lululemon Athletica','A' ,'B-' ,'A' ,'D' ,'B-' , 'B-','shop.lululemon.com'],
+            ['Patagonia','A' ,'A' ,'A' ,'A' ,'B'  ,'A' ,'patagonia.ca'],
+            ['Target','B' ,'A' ,'A' ,'B' ,'C-','C-' ,'target.com'],
+            ['Walmart','F','D','F','F','F','F-','walmart.ca'],
+            ['Sephora','B','D','C','B','D','B','sephora.com']];
+    for (r in ratings){
+
+        if (domain == ratings[r][7]){
+              return ratings[r];
+            }
+        }      
+    return [];         
+}
+
+var formatRatings = function(domain){
+    if (getRatings(domain)[0]===undefined){
+        var str1 = "Sorry! We do not have a report for this website yet.";
+    }
+    else{
+      var r = getRatings(domain);
+      str1 = "Brand: " + r[0] +"\n"
+      +"Overall: " + r[1] +"\n"
+      +"Worker Empowerment: " + r[2]+"\n"
+      +"Supplier Relations: " + r[3]+"\n"
+      +"Transparency: " + r[4]+"\n"
+      +"Enviromental Sustainability: " + r[5]+"\n"
+      +"Policies: " + r[6]+"\n"
+    }
+    return str1;
+}
+
+var str1 = formatRatings(domain);
+
 
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
@@ -33,23 +99,25 @@ var parseCoupons = function(coupons, domain) {
         couponHTML = '<p>No coupons found</p>';
     }
 
+    var couponButton = document.createElement('div');
+    couponButton.className = '_coupon__button';
+    couponButton.innerHTML = '';
+    document.body.appendChild(couponButton);
+
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
-    couponDisplay.innerHTML = '<div class="submit-button">Submit Coupon</div>'
-    +'<h1>KindKart</h1><p>List of available coupons for <strong>'+domain+'</strong></p>'
-    +'<p style="font-style:italic;">Click any coupon to copy</p>'
-    +'<ul>'+couponHTML+'</ul>';
+    couponDisplay.innerHTML = '<h1>KindKart</h1><p>Ethical Rating for <strong>'+domain+'</strong></p>'
+    +'<p>'+str1+'</p><hr>'
+    +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
+    +'<p id="instruct">Click any coupon to copy</p>'
+    +'<ul>'+couponHTML+'</ul>'
+    +'<div class="submit-button">Submit Coupon</div>';
     couponDisplay.style.display = 'none';
     document.body.appendChild(couponDisplay);
 
-    var couponButton = document.createElement('div');
-    couponButton.className = '_coupon__button';
-    couponButton.innerHTML = 'K';
-    document.body.appendChild(couponButton);
-
     var couponSubmitOverlay = document.createElement('div');
     couponSubmitOverlay.className = '_submit-overlay';
-    couponSubmitOverlay.innerHTML = '<span class="close">close</span>'
+    couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
     +'<h3>Submit a coupon for this site</h3>'
     +'<div></label>Code:</label><input type="text" class="code"/></div>'
     +'<div><label>Description:</label><input type="text" class="desc"/></div>'
