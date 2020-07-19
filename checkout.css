@@ -2,7 +2,7 @@
 
 ._submit-overlay{
     position:fixed;
-    width:300px;
+    width:auto;
     height:200px;
     top:50%;
     left:50%;
@@ -57,7 +57,7 @@
     line-height:20px;
 }
 
-._coupon__list > div{
+._coupon__list #submit-button{
     padding: 5px 10px;
     font-size:10px;
     background: #b17cd6;
@@ -70,9 +70,22 @@
     border-radius:3px;
     cursor: pointer;
     bottom: 5px;
-    margin-left: 90px;
-    width: 98px;
+    width: auto;
     text-align: center;
+}
+
+._coupon__list #leftcol {
+    float: left;
+    width: 50%;
+}
+
+._coupon__list #rightcol {
+    float: right;
+    width: 50%;
+}
+
+._coupon__list #clearfix {
+    clear: both;
 }
 
 ._coupon__list p{

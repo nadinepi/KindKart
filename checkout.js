@@ -114,9 +114,9 @@ var parseCoupons = function(coupons, domain) {
 
     if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
-        +'<div class="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
-        +'<div class="rightcol"><p id="message">This company has satisfactory ethics! :)</p></div>'
-        +'<hr><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #45BF77">This company has satisfactory ethics! :)</p></div>'
+        +'<div id="clearfix"></div><p>List of available coupons for <strong>'+domain+'</strong></p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div class="submit-button">Submit Coupon</div>';
@@ -126,12 +126,12 @@ var parseCoupons = function(coupons, domain) {
     }
     else {
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
-        +'<div class="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
-        +'<div class="rightcol"><p id="message">This company does not have satisfactory ethics. Try to limit your spending here :(</p></div>'
-        +'<hr><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #EF4C4C">This company does not have satisfactory ethics. Try to limit your spending here :(</p></div>'
+        +'<div id="clearfix"></div><p> If not, here are some available coupons for <strong>'+domain+'</strong> that you can donate!</p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
+        +'<div id="submit-button">Submit Coupon</div>';
         couponDisplay.style.display = 'block';
         document.body.appendChild(couponDisplay);
     }
@@ -141,8 +141,8 @@ var parseCoupons = function(coupons, domain) {
     couponSubmitOverlay.className = '_submit-overlay';
     couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
     +'<h3>Submit a coupon for this site</h3>'
-    +'<div></label>Code:</label><input type="text" class="code"/></div>'
-    +'<div><label>Description:</label><input type="text" class="desc"/></div>'
+    +'<div></label>Code:</label><input type="text" class="code"/></div><br>'
+    +'<div><label>Description:</label><input type="text" class="desc"/></div><br>'
     +'<div><button class="submit-coupon">Submit Coupon</button></div>'
     couponSubmitOverlay.style.display = 'none';
     document.body.appendChild(couponSubmitOverlay);
@@ -177,7 +177,7 @@ var createEvents = function(){
         document.querySelector('._submit-overlay').style.display = 'none';
     });
 
-    document.querySelector('._coupon__list .submit-button').addEventListener('click', function(event){
+    document.querySelector('._coupon__list #submit-button').addEventListener('click', function(event){
         document.querySelector('._submit-overlay').style.display = 'block';
     });
 
