@@ -3,6 +3,7 @@ var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 var brand = "this Company";
 var overall = "N/A";
+var myid = chrome.i18n.getMessage("@@extension_id");
 
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
     //response from the database (background.html > firebase.js)
