@@ -78,7 +78,6 @@ var formatRatings = function(domain){
 var str1 = formatRatings(domain);
 
 
-
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
     chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {

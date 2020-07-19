@@ -77,6 +77,30 @@ var formatRatings = function(domain){
 var str1 = formatRatings(domain);
 
 
+var ffDomain = window.location.href;
+
+var slashList = ffDomain.split("/");
+var slash = slashList[slashList.length-1];
+var searchTerm = function(slash){
+    var ins = true;
+    var k = ["-", "1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "_"];
+    for (klen in k +1){
+        while (ins == true){
+            var m = slash.indexOf(k[klen]);
+
+            var newTerm = slash.replace(k[klen],"");
+            slash = newTerm
+            if (m==-1){
+                ins = false;
+            }
+
+        }
+        ins=true;
+    }
+
+    return newTerm;
+}
+
 
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
@@ -110,12 +134,15 @@ var parseCoupons = function(coupons, domain) {
 
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
+    var words = searchTerm(slash);
     couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
     +'<p id="ethics">'+str1+'</p><hr>'
     +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
     +'<p id="instruct">Click any coupon to copy</p>'
     +'<ul>'+couponHTML+'</ul>'
-    +'<div class="submit-button">Submit Coupon</div>';
+    +'<div class="submit-button">Submit Coupon</div>'
+    +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Alternative on Ebay</a>'
+    +'<a href="https://www.etsy.com/ca/search?q='+words+'">Alternative on Etsy</a>';
     couponDisplay.style.display = 'none';
     document.body.appendChild(couponDisplay);
 
