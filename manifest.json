@@ -1,0 +1,40 @@
+{
+    "name": "Sethacks Project",
+    "version": "0.1",
+    "description": "Coupons..",
+    "permissions": [
+        "activeTab",
+        "<all_urls>",
+        "tabs"
+    ],
+    "background": {
+        "page": "background.html",
+        "persistent": false
+
+    },
+    "content_scripts": [
+        {
+        "matches": ["<all_urls>"],
+        "exclude_globs":["*checkout*"],
+        "js": ["app.js"],
+        "css": ["main.css"],
+        "run_at": "document_end"
+        },
+        {
+        "matches": ["<all_urls>"],
+        "exclude_globs": ["<all_urls>"],
+        "include_globs": ["*checkout*"],
+        "js":["checkout.js"],
+        "css": ["checkout.css"],
+        "run_at": "document_start"
+        }
+    ],
+    "icons": {  "16" : "images/smallcart.png",
+                "48" : "images/cart.png",
+                "128": "images/KindKartLogo.png"},
+
+    "manifest_version": 2,
+    "web_accessible_resources": ["images/*"],
+
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
+}
