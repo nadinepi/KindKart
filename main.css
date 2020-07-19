@@ -79,11 +79,12 @@
 ._coupon__list p{
     font-family: sans-serif;
     line-height: 20px;
-    font-size:16px;
+    font-size:15px;
     text-align:center;
     font-weight: 500;
     color: #0f0f0f;
     margin-top:20px;
+    margin-bottom: 10px;
 }
 
 ._coupon__list #instruct{
