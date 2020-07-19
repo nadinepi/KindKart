@@ -127,8 +127,9 @@ var parseCoupons = function(coupons, domain) {
     else {
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
         +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
-        +'<div id="rightcol"><p id="message" style="color: #EF4C4C">This company does not have satisfactory ethics. Try to limit your spending here :(</p></div>'
-        +'<div id="clearfix"></div><p> If not, here are some available coupons for <strong>'+domain+'</strong> that you can donate!</p>'
+        +'<div id="rightcol"><p id="message" style="color: #EF4C4C"><br><br>This company does not have satisfactory ethics. :( Try to limit your spending here...</p></div>'
+        +'<div id="clearfix"></div><p> If not, below are some coupons for <strong>'+domain+'</strong>. After you save, pay it forward to a charity of your choice!</p>'
+        +'<br><p style="font-size: 13px">We suggest the <a href="https://unfoundation.org/action-step/donation/give-to-protect-global-progress/step-one-select-gift-amount">UN Foundation Charity</a>, which helps the world to accomplish Sustainable Development Goals across interconnected issues, including climate, health, gender equality, human rights, data and technology, peace, and humanitarian response.</p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div id="submit-button">Submit Coupon</div>';
