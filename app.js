@@ -1,7 +1,7 @@
 //Get current domain
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
-var brand;
+var brand = "this Company";
 
 
 chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
@@ -110,8 +110,8 @@ var parseCoupons = function(coupons, domain) {
 
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
-    couponDisplay.innerHTML = '<h1>KindKart</h1><p>Ethical Rating for <strong>'+brand+'</strong></p>'
-    +'<p>'+str1+'</p><hr>'
+    couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
+    +'<p id="ethics">'+str1+'</p><hr>'
     +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
     +'<p id="instruct">Click any coupon to copy</p>'
     +'<ul>'+couponHTML+'</ul>'

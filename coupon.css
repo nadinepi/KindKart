@@ -1,6 +1,5 @@
 
 
-
 ._submit-overlay{
     position:fixed;
     width:300px;
@@ -19,7 +18,12 @@
   }
 
 ._submit-overlay label, input{
-    margin: 5px;
+    margin: 7px;
+    padding: 5px;
+}
+
+._submit-overlay h3 {
+    margin: 10px;
 }
 
 ._submit-overlay span {
@@ -38,7 +42,7 @@
     font-family:sans-serif;
     line-height:20px;
     cursor: pointer;
-    margin-top: 15px;
+    margin: 15px;
     border: none;
     border-radius: 3px;
 }
@@ -56,7 +60,7 @@
 ._coupon__list > div{
     padding: 5px 10px;
     font-size:10px;
-    background: #cfa5ec;
+    background: #bf74f5;
     height: auto;
     color:white;
     font-family:sans-serif;
@@ -78,7 +82,7 @@
     text-align:center;
     font-weight: 500;
     color: #0f0f0f;
-    margin-top:5px;
+    margin-top:20px;
 }
 
 ._coupon__list #instruct{
@@ -87,9 +91,20 @@
     margin: 2px;
 }
 
+._coupon__list #ethics{
+    text-align: left;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+._coupon__list #ethicalrating {
+    font-size: 18px;
+    margin: 15px;
+}
+
 ._coupon__list ul{
     list-style-type: none;
-    margin:0;
+    margin: 20px;
     padding:0;
 }
 
@@ -99,7 +114,7 @@
     padding: 15px;
     box-shadow: 0 3px 15px 0 rgba(0,0,0,0.25);
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 ._coupon__list {
@@ -131,6 +146,7 @@
     border: 1px solid #eaeaea;
     cursor: pointer;
 }
+
 
 ._coupon__list li p{
     text-align:left;
