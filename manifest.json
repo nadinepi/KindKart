@@ -24,14 +24,14 @@
 
     "content_scripts": [
         {
-        "matches": ["<all_urls>"],
+        "matches": ["https://www.sephora.com/ca/en/"],
         "exclude_globs":["*checkout*"],
         "js": ["js/main.js"],
         "css": ["css/main.css"],
         "run_at": "document_end"
         },
         {
-        "matches": ["<all_urls>"],
+        "matches": ["https://www.sephora.com/ca/en/"],
         "exclude_globs": ["<all_urls>"],
         "include_globs": ["*checkout*"],
         "js":["js/checkout.js"],

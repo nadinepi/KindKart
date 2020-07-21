@@ -15,12 +15,12 @@ chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response
 
 // georgia's functions to output ethical rating of each brand
 var getRatings = function(domain) {
-    var ratings=[
-        ["Abercrombie & Fitch","D-" , "B-" ,"D-" , "A" ,"F" ,"F","abercrombie.com"],
-        [ "adidas","A" ,"A+" ,"A+" ,"D-" ,"B-" , "B-","adidas.ca"],
+    let ratings = [
+        ["Abercrombie & Fitch", "D-", "B-", "D-", "A", "F", "F", "abercrombie.com"],
+        ["adidas","A" ,"A+" ,"A+" ,"D-" ,"B-" , "B-","adidas.ca"],
         ["ALDI", "B-" ,"A+" ,"A-" ,"B+" ,"D-" , "D-","aldi.us"],
         ["Ally Fashion","F" ,"F ","F" ,"B-" ,"F" , "F","allyfashion.com"],
-        [ "Anthea Crawford","C" ,"A+" ,"D+" ,"F" ,"C-" , "C-","antheacrawford.com.au"],
+        ["Anthea Crawford","C" ,"A+" ,"D+" ,"F" ,"C-" , "C-","antheacrawford.com.au"],
         ["APG & Co","A" ,"A+" ,"A+" ,"C-" ,"B-" , "B-","apgandco.com"],
         ["Arcadia Group","-C+" ,"A+" ,"B" ,"A" ,"D- ", "D-","arcadiagroup.co.uk"],
         ['AS Colour','A' ,'A+' ,'A+' ,'C-' ,'B-' , 'B-','ascolour.com'],
