@@ -77,7 +77,7 @@ var formatRatings = function(domain){
     return str1;
 }
 
-var ethicalrating = formatRatings(domain);
+var str1 = formatRatings(domain);
 
 
 var ffDomain = window.location.href;
@@ -156,7 +156,7 @@ var parseCoupons = function(coupons, domain) {
     
     if (overall == "N/A") {
         couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
+        +'<p id="ethics">'+str1+'</p><hr>'
         +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
@@ -166,7 +166,7 @@ var parseCoupons = function(coupons, domain) {
     }
     else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
         couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
+        +'<p id="ethics">'+str1+'</p><hr>'
         +'<p>Good website! Alternatives just in case...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
@@ -179,7 +179,7 @@ var parseCoupons = function(coupons, domain) {
     }
     else{
         couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
+        +'<p id="ethics">'+str1+'</p><hr>'
         +'<p>Uh oh. You may want to look at alternatives...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
@@ -196,7 +196,7 @@ var parseCoupons = function(coupons, domain) {
     couponSubmitOverlay.className = '_submit-overlay';
     couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
     +'<h3>Submit a coupon for this site</h3>'
-    +'<div><label>Code:</label><input type="text" class="code"/></div>'
+    +'<div></label>Code:</label><input type="text" class="code"/></div>'
     +'<div><label>Description:</label><input type="text" class="desc"/></div>'
     +'<div><button class="submit-coupon">Submit Coupon</button></div>'
     couponSubmitOverlay.style.display = 'none';

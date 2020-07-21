@@ -4,38 +4,28 @@
     "description": "Coupons..",
     "permissions": [
         "activeTab",
-        "declarativeContent",
         "<all_urls>",
         "tabs"
     ],
     "background": {
-        "persistent": false,
-        "page": "background.html"
+        "page": "background.html",
+        "persistent": false
+
     },
-
-    "page_action": {
-        "default_icon": {                    
-            "16": "images/smallcart.png",          
-            "24": "images/cart24.png"      
-        },
-        "default_title": "KindKart",      
-        "default_popup": "popup.html"        
-      },
-
     "content_scripts": [
         {
         "matches": ["https://www.sephora.com/ca/en/"],
         "exclude_globs":["*checkout*"],
-        "js": ["js/main.js"],
-        "css": ["css/main.css"],
+        "js": ["app.js"],
+        "css": ["main.css"],
         "run_at": "document_end"
         },
         {
         "matches": ["https://www.sephora.com/ca/en/"],
         "exclude_globs": ["<all_urls>"],
         "include_globs": ["*checkout*"],
-        "js":["js/checkout.js"],
-        "css": ["css/checkout.css"],
+        "js":["checkout.js"],
+        "css": ["checkout.css"],
         "run_at": "document_start"
         }
     ],
