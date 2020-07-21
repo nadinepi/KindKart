@@ -1,5 +1,3 @@
-
-
 ._submit-overlay{
     position:fixed;
     width:auto;
@@ -18,12 +16,15 @@
   }
 
 ._submit-overlay label, input{
-    margin: 7px;
-    padding: 5px;
+    margin: 0.5rem;
+    padding: 0.3rem;
+    color: black;
+    
 }
 
 ._submit-overlay h3 {
-    margin: 10px;
+    margin: 0.9rem;
+    color: black;
 }
 
 ._submit-overlay span {
@@ -50,7 +51,7 @@
 ._coupon__list h1{
     color: #cfa5ec;
     font-family: sans-serif;
-    font-size:26px;
+    font-size:1.7em;
     margin-bottom:20px;
     border-bottom:1px solid #eee;
     padding-bottom:15px;
@@ -59,7 +60,7 @@
 
 ._coupon__list #submit-button{
     padding: 5px 10px;
-    font-size:10px;
+    font-size:0.625em;
     background: #b17cd6;
     height: auto;
     color:white;
@@ -106,13 +107,18 @@
 
 ._coupon__list #ethics{
     text-align: left;
-    margin-left: 20px;
+    margin-left: 2rem;
     margin-bottom: 20px;
 }
 
 ._coupon__list #ethicalrating {
     font-size: 18px;
     margin: 15px;
+}
+
+._coupon__list #message {
+    margin-left: 15px;
+    text-align: center;
 }
 
 ._coupon__list ul{

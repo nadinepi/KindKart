@@ -1,4 +1,6 @@
 //Get current domain
+console.log('popup running');
+
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 var brand = "this Company";
@@ -11,6 +13,7 @@ chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response
     parseCoupons(response.data, domain);
 });
 
+// georgia's functions to output ethical rating of each brand
 var getRatings = function(domain) {
     var ratings=[
         ["Abercrombie & Fitch","D-" , "B-" ,"D-" , "A" ,"F" ,"F","abercrombie.com"],
@@ -60,11 +63,11 @@ var getRatings = function(domain) {
 
 var formatRatings = function(domain){
     if (getRatings(domain)[0]===undefined){
-        var str1 = "Sorry! We do not have a report for this website yet.";
+        var ethicalrating = "Sorry! We do not have a report for this website yet.";
     }
     else{
       var r = getRatings(domain);
-      str1 = "Overall: " + r[1] +"<br>"
+      ethicalrating = "Overall: " + r[1] +"<br>"
       +"Worker Empowerment: " + r[2]+"<br>"
       +"Supplier Relations: " + r[3]+"<br>"
       +"Transparency: " + r[4]+"<br>"
@@ -74,10 +77,10 @@ var formatRatings = function(domain){
       brand = r[0];
       overall = r[1];
     }
-    return str1;
+    return ethicalrating;
 }
 
-var str1 = formatRatings(domain);
+var ethicalrating = formatRatings(domain);
 
 
 var ffDomain = window.location.href;
@@ -149,24 +152,25 @@ var parseCoupons = function(coupons, domain) {
     couponButton.innerHTML = '';
     document.body.appendChild(couponButton);
 
-    var couponDisplay = document.createElement('div');
-    couponDisplay.className = '_coupon__list';
+    var mainPopup = document.createElement('div');
+    mainPopup.className = '_coupon__list';
     var words = searchTerm(slash);
 
-    
+    document.getElementById('brand').innerHTML = brand;
+
     if (overall == "N/A") {
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
+        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
+        +'<p id="ethics">'+ethicalrating+'</p><hr>'
         +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
+        mainPopup.style.display = 'none';
+        document.body.appendChild(mainPopup);
     }
     else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
+        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
+        +'<p id="ethics">'+ethicalrating+'</p><hr>'
         +'<p>Good website! Alternatives just in case...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
@@ -174,12 +178,12 @@ var parseCoupons = function(coupons, domain) {
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
+        mainPopup.style.display = 'none';
+        document.body.appendChild(mainPopup);
     }
     else{
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
+        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
+        +'<p id="ethics">'+ethicalrating+'</p><hr>'
         +'<p>Uh oh. You may want to look at alternatives...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
@@ -188,8 +192,8 @@ var parseCoupons = function(coupons, domain) {
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
         +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
+        mainPopup.style.display = 'none';
+        document.body.appendChild(mainPopup);
     }
 
     var couponSubmitOverlay = document.createElement('div');

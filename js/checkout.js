@@ -76,7 +76,7 @@ var formatRatings = function(domain){
     return str1;
 }
 
-var str1 = formatRatings(domain);
+var ethicalrating = formatRatings(domain);
 
 
 var submitCoupon = function(code, desc, domain){
@@ -112,10 +112,21 @@ var parseCoupons = function(coupons, domain) {
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
 
-    if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+    if (overall == "N/A") {
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
-        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
-        +'<div id="rightcol"><p id="message" style="color: #45BF77">This company has satisfactory ethics! :)</p></div>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+ethicalrating+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #F5E758"><br><br>This company has no rating information. </p></div>'
+        +'<div id="clearfix"></div><p>List of available coupons for <strong>'+domain+'</strong></p>'
+        +'<p id="instruct">Click any coupon to copy</p>'
+        +'<ul>'+couponHTML+'</ul>'
+        +'<div id="submit-button">Submit Coupon</div>';
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+    }
+    else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+ethicalrating+'</p></div>'
+        +'<div id="rightcol"><p id="message" style="color: #45BF77"><br><br>This company has satisfactory ethics! :)</p></div>'
         +'<div id="clearfix"></div><p>List of available coupons for <strong>'+domain+'</strong></p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
@@ -126,7 +137,7 @@ var parseCoupons = function(coupons, domain) {
     }
     else {
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
-        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+str1+'</p></div>'
+        +'<div id="leftcol"><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p><p id="ethics">'+ethicalrating+'</p></div>'
         +'<div id="rightcol"><p id="message" style="color: #EF4C4C"><br><br>This company does not have satisfactory ethics. :( Try to limit your spending here...</p></div>'
         +'<div id="clearfix"></div><p> If not, below are some coupons for <strong>'+domain+'</strong>. After you save, pay it forward to a charity of your choice!</p>'
         +'<br><p style="font-size: 13px">We suggest the <a href="https://unfoundation.org/action-step/donation/give-to-protect-global-progress/step-one-select-gift-amount">UN Foundation Charity</a>, which helps the world to accomplish Sustainable Development Goals across interconnected issues, including climate, health, gender equality, human rights, data and technology, peace, and humanitarian response.</p>'
@@ -142,7 +153,7 @@ var parseCoupons = function(coupons, domain) {
     couponSubmitOverlay.className = '_submit-overlay';
     couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
     +'<h3>Submit a coupon for this site</h3>'
-    +'<div></label>Code:</label><input type="text" class="code"/></div><br>'
+    +'<div><label>Code:</label><input type="text" class="code"/></div><br>'
     +'<div><label>Description:</label><input type="text" class="desc"/></div><br>'
     +'<div><button class="submit-coupon">Submit Coupon</button></div>'
     couponSubmitOverlay.style.display = 'none';
