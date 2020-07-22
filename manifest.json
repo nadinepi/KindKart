@@ -12,23 +12,6 @@
         "persistent": false
 
     },
-    "content_scripts": [
-        {
-        "matches": ["https://www.sephora.com/ca/en/"],
-        "exclude_globs":["*checkout*"],
-        "js": ["app.js"],
-        "css": ["main.css"],
-        "run_at": "document_end"
-        },
-        {
-        "matches": ["https://www.sephora.com/ca/en/"],
-        "exclude_globs": ["<all_urls>"],
-        "include_globs": ["*checkout*"],
-        "js":["checkout.js"],
-        "css": ["checkout.css"],
-        "run_at": "document_start"
-        }
-    ],
     "icons": {  "16" : "images/smallcart.png",
                 "48" : "images/cart.png",
                 "128": "images/KindKartLogo.png"},
