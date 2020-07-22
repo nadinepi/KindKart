@@ -1,4 +1,4 @@
-//Get current domain
+//Get current domain hello pickle
 var domain = window.location.hostname;
 domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 var brand = "this Company";
