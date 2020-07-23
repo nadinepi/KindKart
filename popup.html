@@ -9,15 +9,16 @@
     </head>
     <body style="width: 300px">
         <h1>KindKart</h1>
-        <p id="ethicalrating">Ethical Rating for <div id="brand"></div></p>
-        <p id="ethics">'+str1+'</p><hr>
-        <p>List of available coupons for <strong>'+domain+'</strong></p>
+        <p>Ethical Rating for <strong id="brand"></strong></p>
+        <p id="ethicalrating"></p>
+        <hr>
+        <p>List of available coupons for <strong id='domain'></strong></p>
         <p id="instruct">Click any coupon to copy</p>
-        <ul>'+couponHTML+'</ul>
+        <ul id="coupons"></ul>
         <div class="submit-button">Submit Coupon</div>
 
     <script src="js/jquery.js"></script>
     <script src="js/popup.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.js"></script>
   </body>
 </html>

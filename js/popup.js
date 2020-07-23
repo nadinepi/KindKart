@@ -1,8 +1,20 @@
 //Get current domain
 console.log('popup running');
 
-var domain = window.location.hostname;
-domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var tab = tabs[0];
+    var url = new URL(tab.url)
+    var fulldomain = url.hostname
+    console.log(fulldomain)
+    domain = fulldomain.replace('www.','').split(/[/?#]/)[0];
+    console.log(domain)
+    // `domain` now has a value like 'example.com'
+})
+
+//var domain = window.location.hostname;
+
+
+
 var brand = "this Company";
 var overall = "N/A";
 var myid = chrome.i18n.getMessage("@@extension_id");
@@ -82,7 +94,6 @@ var formatRatings = function(domain){
 
 var ethicalrating = formatRatings(domain);
 
-
 var ffDomain = window.location.href;
 
 var slashList = ffDomain.split("/");
@@ -157,10 +168,12 @@ var parseCoupons = function(coupons, domain) {
     var words = searchTerm(slash);
 
     document.getElementById('brand').innerHTML = brand;
+    document.getElementById('ethicalrating').innerHTML = ethicalrating;
+    document.getElementById('domain').innerHTML = domain;
+    document.getElementById('coupons').innerHTML = couponHTML;
 
     if (overall == "N/A") {
-        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
+        mainPopup.innerHTML = '<p id="ethics">'+ethicalrating+'</p><hr>'
         +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
         +'<p id="instruct">Click any coupon to copy</p>'
         +'<ul>'+couponHTML+'</ul>'
@@ -169,9 +182,7 @@ var parseCoupons = function(coupons, domain) {
         document.body.appendChild(mainPopup);
     }
     else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
-        +'<p>Good website! Alternatives just in case...</p>'
+        mainPopup.innerHTML = '<p>Good website! Alternatives just in case...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
         +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
@@ -182,9 +193,7 @@ var parseCoupons = function(coupons, domain) {
         document.body.appendChild(mainPopup);
     }
     else{
-        mainPopup.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+ethicalrating+'</p><hr>'
-        +'<p>Uh oh. You may want to look at alternatives...</p>'
+        mainPopup.innerHTML = '<p>Uh oh. You may want to look at alternatives...</p>'
         +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
         +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
         +'<p>Or give back by donating coupons at checkout!</p>'

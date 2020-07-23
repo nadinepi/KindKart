@@ -1,3 +1,16 @@
+// listen for when someone clicks the page action
+chrome.pageAction.onClicked.addListener( function () {
+    // query the current tab on the current window
+    chrome.tabs.query( { active: true, currentWindow: true }, function ( tabs ) {
+      // exceute the main.js script on this tab
+        chrome.tabs.executeScripts(
+            tabs[0].id, 
+            { file: 'popup.js' }
+        );
+    });
+});
+
+
 // Remove the current rules 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     // Replace the current rules
@@ -10,25 +23,12 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
        */
         new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
-                hostEquals: 'www.google.ca',
-                schemes: [ 'http', 'https']
+                hostEquals: 'www.sephora.com',
+                schemes: ['http', 'https']
                 }
             })
         ], 
-            actions: [
-            new chrome.declarativeContent.ShowPageAction()
-            ]
+            actions: [new chrome.declarativeContent.ShowPageAction()]
     }])
 })
 
-// listen for when someone clicks the page action
-chrome.pageAction.onClicked.addListener( function () {
-    // query the current tab on the current window
-    chrome.tabs.query( { active: true, currentWindow: true }, function ( tabs ) {
-      // exceute the main.js script on this tab
-        chrome.tabs.executeScripts(
-            tabs[0].id, 
-            { file: 'popup.js' }
-        );
-    });
-});

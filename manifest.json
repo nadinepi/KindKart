@@ -5,6 +5,7 @@
     "permissions": [
         "activeTab",
         "<all_urls>",
+        "declarativeContent",
         "tabs"
     ],
     "background": {
@@ -12,10 +13,19 @@
         "persistent": false
 
     },
-    "icons": {  "16" : "images/smallcart.png",
-                "48" : "images/cart.png",
-                "128": "images/KindKartLogo.png"},
-
+    "page_action": {
+        "default_popup": "popup.html",
+        "default_icon": {   
+            "16" : "images/smallcart.png",
+            "48" : "images/cart.png",
+            "128": "images/KindKartLogo.png"
+        }
+    },
+    "icons": {
+        "16" : "images/smallcart.png",
+        "48" : "images/cart.png",
+        "128": "images/KindKartLogo.png"
+    },
     "manifest_version": 2,
     "web_accessible_resources": ["images/*"],
 
