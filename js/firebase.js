@@ -14,7 +14,8 @@
   console.log(firebase);
 
   chrome.runtime.onMessage.addListener((msg, sender, response) => {
-
+    console.log("firebase connected!");
+    
       if(msg.command == "fetch"){
           var domain = msg.data.domain;
           var enc_domain = btoa(domain);

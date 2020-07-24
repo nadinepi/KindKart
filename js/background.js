@@ -1,3 +1,6 @@
+console.log("background script running");
+
+
 // listen for when someone clicks the page action
 chrome.pageAction.onClicked.addListener( function () {
     // query the current tab on the current window
@@ -9,7 +12,6 @@ chrome.pageAction.onClicked.addListener( function () {
         );
     });
 });
-
 
 // Remove the current rules 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -29,6 +31,22 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
             })
         ], 
             actions: [new chrome.declarativeContent.ShowPageAction()]
-    }])
-})
+    }]);
+});
 
+let domain = ""
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+        url = tab.url;
+        console.log(url)
+        domain = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+        console.log(domain);
+        // `domain` now has a value like 'example.com'
+    });
+
+chrome.runtime.onMessage.addListener(sendDomain)
+function sendDomain(request, sender, sendResponse){
+    if (request.text == "getDomain"){
+        sendResponse(domain)
+    }
+}

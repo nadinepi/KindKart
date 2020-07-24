@@ -1,19 +1,17 @@
-//Get current domain
 console.log('popup running');
+const domainname = document.querySelector('#domain_name')
 
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    var tab = tabs[0];
-    var url = new URL(tab.url)
-    var fulldomain = url.hostname
-    console.log(fulldomain)
-    domain = fulldomain.replace('www.','').split(/[/?#]/)[0];
-    console.log(domain)
-    // `domain` now has a value like 'example.com'
-})
+var response = "nothing";
 
-//var domain = window.location.hostname;
+chrome.runtime.sendMessage({text: "getDomain"}, getDomain)
 
+function getDomain(response){
+    domain = response;
+    console.log(response);
+    //domainname.innerText = response.domain
+}
 
+console.log(domain);
 
 var brand = "this Company";
 var overall = "N/A";
@@ -132,7 +130,11 @@ var searchTerm = function(slash){
     return newTerm.substr(0,45);
 }
 
+var words = searchTerm(slash);
 
+
+
+// not rewritten 
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
     chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
@@ -140,11 +142,14 @@ var submitCoupon = function(code, desc, domain){
     });
 }
 
+//not rewritten
 var submitCoupon_callback = function(resp, domain){
     console.log('Resp:', resp);
     document.querySelector('._submit-overlay').style.display='none';
     alert('Coupon Submitted!');
 }
+
+// not rewritten
 var parseCoupons = function(coupons, domain) {
 
     try{
@@ -156,54 +161,8 @@ var parseCoupons = function(coupons, domain) {
     }
     if(couponHTML ==''){
         couponHTML = '<p>No coupons found</p>';
-    }
-
-    var couponButton = document.createElement('div');
-    couponButton.className = '_coupon__button';
-    couponButton.innerHTML = '';
-    document.body.appendChild(couponButton);
-
-    var mainPopup = document.createElement('div');
-    mainPopup.className = '_coupon__list';
-    var words = searchTerm(slash);
-
-    document.getElementById('brand').innerHTML = brand;
-    document.getElementById('ethicalrating').innerHTML = ethicalrating;
-    document.getElementById('domain').innerHTML = domain;
+}
     document.getElementById('coupons').innerHTML = couponHTML;
-
-    if (overall == "N/A") {
-        mainPopup.innerHTML = '<p id="ethics">'+ethicalrating+'</p><hr>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        mainPopup.style.display = 'none';
-        document.body.appendChild(mainPopup);
-    }
-    else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-        mainPopup.innerHTML = '<p>Good website! Alternatives just in case...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        mainPopup.style.display = 'none';
-        document.body.appendChild(mainPopup);
-    }
-    else{
-        mainPopup.innerHTML = '<p>Uh oh. You may want to look at alternatives...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>Or give back by donating coupons at checkout!</p>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        mainPopup.style.display = 'none';
-        document.body.appendChild(mainPopup);
-    }
 
     var couponSubmitOverlay = document.createElement('div');
     couponSubmitOverlay.className = '_submit-overlay';
@@ -222,6 +181,25 @@ var parseCoupons = function(coupons, domain) {
     }
 }
 
+// passing variables to popup.html    
+document.getElementById('brand').innerHTML = brand;
+document.getElementById('ethicalrating').innerHTML = ethicalrating;
+
+
+
+if (overall == "N/A") {
+    document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
+
+}
+else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+    document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
+
+}
+else{
+    document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
+}
+
+// not rewritten
 var copyToClipboard = function(str){
     var input = document.createElement('textarea');
     input.innerHTML = str;
@@ -232,6 +210,7 @@ var copyToClipboard = function(str){
     return result;
 }
 
+// not rewritten
 var createEvents = function(){
 
     document.querySelectorAll('._coupon__list .code').forEach(codeItem => {
