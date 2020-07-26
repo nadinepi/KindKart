@@ -37,14 +37,17 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 let domain = ""
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        url = tab.url;
+    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+        let url = tabs[0].url;
         console.log(url)
         domain = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
         console.log(domain);
         // `domain` now has a value like 'example.com'
     });
+});
 
 chrome.runtime.onMessage.addListener(sendDomain)
+
 function sendDomain(request, sender, sendResponse){
     if (request.text == "getDomain"){
         sendResponse(domain)

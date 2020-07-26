@@ -1,17 +1,16 @@
 console.log('popup running');
-const domainname = document.querySelector('#domain_name')
-
-var response = "nothing";
+const domain1 = document.querySelector('#domain_name')
 
 chrome.runtime.sendMessage({text: "getDomain"}, getDomain)
 
 function getDomain(response){
-    domain = response;
-    console.log(response);
-    //domainname.innerText = response.domain
+    domain1.innerText = response;
 }
 
-console.log(domain);
+var domain = document.getElementById('domain_name');
+
+console.log("domain", domain);
+
 
 var brand = "this Company";
 var overall = "N/A";
