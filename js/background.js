@@ -1,28 +1,32 @@
 console.log("background script running");
 
+const urls = ['checkout'];
 
-// listen for when someone clicks the page action
-chrome.pageAction.onClicked.addListener( function () {
-    // query the current tab on the current window
-    chrome.tabs.query( { active: true, currentWindow: true }, function ( tabs ) {
-      // exceute the main.js script on this tab
-        chrome.tabs.executeScripts(
-            tabs[0].id, 
-            { file: 'popup.js' }
-        );
-    });
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (urls.some(url => tab.url.includes(url))) {
+        chrome.browserAction.setPopup({
+            tabId: tabId,
+            popup: 'checkout.html'
+        });
+    } else {
+        chrome.browserAction.setPopup({
+            tabId: tabId,
+            popup: 'popup.html'
+        });
+    }
 });
 
+
 // Remove the current rules 
-chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+/* chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     // Replace the current rules
     chrome.declarativeContent.onPageChanged.addRules([
     {
         conditions: [
-       /*
-       Create a new event Object with PageStateMatcher that
-       matches page urls that follolw http and https schemes
-       */
+
+       //Create a new event Object with PageStateMatcher that
+       //matches page urls that follolw http and https schemes
+    
         new chrome.declarativeContent.PageStateMatcher({
             pageUrl: {
                 hostEquals: 'www.sephora.com',
@@ -33,6 +37,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
             actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
 });
+*/
 
 let domain = ""
 

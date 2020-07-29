@@ -1,7 +1,9 @@
 console.log('popup running');
 const domain1 = document.querySelector('#domain_name')
 
-chrome.runtime.sendMessage({text: "getDomain"}, getDomain)
+chrome.runtime.sendMessage({text: "getDomain"}, getDomain), function (response) {
+    getDomain(response);
+}
 
 function getDomain(response){
     domain1.innerText = response;

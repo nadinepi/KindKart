@@ -13,8 +13,9 @@
         "persistent": false
 
     },
-    "page_action": {
+    "browser_action": {
         "default_popup": "popup.html",
+        "default_title": "KindKart",
         "default_icon": {   
             "16" : "images/smallcart.png",
             "48" : "images/cart.png",

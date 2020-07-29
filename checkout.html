@@ -5,17 +5,23 @@
         <!-- Bootstrap and Custom css -->
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="css/popup.css" rel="stylesheet" type="text/css">
+        <link href="css/checkout.css" rel="stylesheet" type="text/css">
         <!-- Firebase -->
         <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
     </head>
     <body>
         <h1>KindKart</h1>
+        <p>this is the checkout popup</p>
         <hr>
         <p>Ethical Rating for <strong id="brand"></strong></p>
         <p id="ethicalrating"></p>
         <p id="ratingmessage"></p>
         <hr>
+        <p>List of available coupons for <strong id="domain_name">initial</strong></p>
+        <p id="instruct">Click any coupon to copy</p>
+        <ul id="coupons"></ul>
+        <div class="submit-button">Submit Coupon</div>
 
     <script src="js/jquery.js"></script>
     <script src="js/popup.js"></script>
