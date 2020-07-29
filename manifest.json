@@ -6,7 +6,8 @@
         "activeTab",
         "<all_urls>",
         "declarativeContent",
-        "tabs"
+        "tabs",
+        "storage"
     ],
     "background": {
         "page": "background.html",

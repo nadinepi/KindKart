@@ -1,18 +1,18 @@
 console.log('popup running');
-const domain1 = document.querySelector('#domain_name')
 
-chrome.runtime.sendMessage({text: "getDomain"}, getDomain), function (response) {
-    getDomain(response);
-}
+chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
+    let url = tab.url;
+    domain = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+    document.getElementById('domain_name').textContent = domain;
+    chrome.storage.sync.set({url1: domain});
+  });
 
-function getDomain(response){
-    domain1.innerText = response;
-}
+chrome.storage.sync.get(['url1'], function(result) {
+    domain1 = result.url1;
+    console.log('retrieved', domain1);
+})
 
-var domain = document.getElementById('domain_name');
-
-console.log("domain", domain);
-
+console.log(domainstring);
 
 var brand = "this Company";
 var overall = "N/A";
@@ -233,13 +233,5 @@ var createEvents = function(){
         var code = document.querySelector('._submit-overlay .code').value;
         var desc = document.querySelector('._submit-overlay .desc').value;
         submitCoupon(code, desc, window.domain);
-    });
-
-    document.querySelector('._coupon__button').addEventListener('click', function(event){
-        if(document.querySelector('._coupon__list').style.display == 'block'){
-            document.querySelector('._coupon__list').style.display = 'none';
-        }else{
-            document.querySelector('._coupon__list').style.display = 'block';
-        }
     });
 }
