@@ -7,12 +7,13 @@ chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
     chrome.storage.sync.set({url1: domain});
   });
 
-chrome.storage.sync.get(['url1'], function(result) {
-    domain1 = result.url1;
-    console.log('retrieved', domain1);
-})
 
-console.log(domainstring);
+function getDomain(callback) {
+    chrome.storage.sync.get(['url1'], callback);
+    console.log(url1)
+}
+
+getDomain();
 
 var brand = "this Company";
 var overall = "N/A";
