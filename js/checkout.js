@@ -2,22 +2,20 @@ console.log('popup running');
 
 chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
     let url = tab.url;
-    console.log(url);
     result = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
-    
-    // store domain
-    chrome.storage.local.set({domain: result});  
-    getDomain();      
-});
-
-
+    chrome.storage.local.set({domain: result});        
+    });
   
 function getDomain() {
-    // get domain from storage
     chrome.storage.local.get(['domain'], function(data) {
         domain = data.domain;
-        console.log(domain);
+        document.getElementById('domain_name').textContent = domain;
 
+        chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
+            //response from the database (background.html > firebase.js)
+            parseCoupons(response.data, domain);
+        });
+        
         // getting ethical rating and putting it into the html
         var ethicalrating = formatRatings(domain);
         document.getElementById('ethicalrating').innerHTML = ethicalrating;
@@ -41,11 +39,12 @@ function getDomain() {
     });
 }
 
-
+getDomain();
 
 var brand = "this Company";
 var overall = "N/A";
 var myid = chrome.i18n.getMessage("@@extension_id");
+
 
 
 // georgia's functions to output ethical rating of each brand
@@ -115,18 +114,6 @@ var formatRatings = function(domain){
     return ethicalrating;
 }
 
-if (overall == "N/A") {
-    document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
-
-}
-else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-    document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
-
-}
-else{
-    document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
-}
-
 var ffDomain = window.location.href;
 
 var slashList = ffDomain.split("/");
@@ -183,6 +170,30 @@ var submitCoupon_callback = function(resp, domain){
     document.querySelector('._submit-overlay').style.display='none';
     alert('Coupon Submitted!');
 }
+
+// not rewritten
+var parseCoupons = function(coupons, domain) {
+
+    try{
+        var couponHTML = '';
+        for (var key in coupons){
+            var coupon = coupons[key];
+            couponHTML += '<li><span class="code">'+coupon.code+'</span>'
+            +'<p>'+coupon.description+'</p></li>';
+    }
+    if(couponHTML ==''){
+        couponHTML = '<p>No coupons found</p>';
+}
+    document.getElementById('coupons').innerHTML = couponHTML;
+
+    //createEvents();
+
+    }catch(e){
+        console.log('no coupons found', e);
+    }
+}
+
+
 
 
 // not rewritten
