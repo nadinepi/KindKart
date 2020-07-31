@@ -2,18 +2,19 @@ console.log('popup running');
 
 chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
     let url = tab.url;
-    domain = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
-    document.getElementById('domain_name').textContent = domain;
-    chrome.storage.sync.set({url1: domain});
-  });
-
-
-function getDomain(callback) {
-    chrome.storage.sync.get(['url1'], callback);
-    console.log(url1)
+    result = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+    document.getElementById('domain_name').textContent = result;
+    chrome.storage.local.set({domain: result});        
+    });
+  
+function getDomain() {
+    chrome.storage.local.get(['domain'], function(data) {
+        domain = data.domain;
+    });
 }
 
 getDomain();
+
 
 var brand = "this Company";
 var overall = "N/A";
