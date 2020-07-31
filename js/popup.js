@@ -10,6 +10,7 @@ chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
 function getDomain() {
     chrome.storage.local.get(['domain'], function(data) {
         domain = data.domain;
+        console.log(domain);
     });
 }
 
