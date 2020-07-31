@@ -7,25 +7,25 @@ chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
     
     // store domain
     chrome.storage.local.set({domain: result});  
-    getDomain();      
+
+    // do this here so that every time the tab is queried, the extension is updated
+    getInfo();      
 });
 
-
-  
-function getDomain() {
+function getInfo() {
     // get domain from storage
     chrome.storage.local.get(['domain'], function(data) {
         domain = data.domain;
         console.log(domain);
 
-        // getting ethical rating and putting it into the html
+        // getting ethical rating and putting it into popup.html
         var ethicalrating = formatRatings(domain);
         document.getElementById('ethicalrating').innerHTML = ethicalrating;
 
-        // putting brand into the html
+        // putting brand into popup.html
         document.getElementById('brand').textContent = brand;
 
-        // putting rating message into html
+        // putting rating message into popup.html
         if (overall == "N/A") {
             document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
         
@@ -41,11 +41,10 @@ function getDomain() {
     });
 }
 
-
-
+// initializing variables that are used by geInfo()
+var domain = "this Website";
 var brand = "this Company";
 var overall = "N/A";
-var myid = chrome.i18n.getMessage("@@extension_id");
 
 
 // georgia's functions to output ethical rating of each brand
@@ -132,6 +131,7 @@ var ffDomain = window.location.href;
 var slashList = ffDomain.split("/");
 var slash = slashList[slashList.length-1];
 
+// alternative websites function
 var searchTerm = function(slash){
     var ins = true;
     var k = ["1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "="];
