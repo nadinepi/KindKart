@@ -1,0 +1,40 @@
+
+#instruct {
+    font-style: italic;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0.15em;
+    padding: 0;
+}
+
+li {
+    border-radius:3px;
+    border: 1px solid #e0e0e0;
+    padding: 0.8em;
+    box-shadow: 0 1px 7px 0 rgba(0,0,0,0.25);
+    text-transform: uppercase;
+    margin-bottom: 1em;
+}
+
+.code {
+    background: #924cc4;
+    color: #fff;
+    font-size: 0.9em;
+    padding: 0.25em;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    display: inline-block;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.desc {
+    font-size: 0.85em;
+    margin-bottom: 0em;
+    margin-top: 0.2em;
+    text-transform: none;
+}

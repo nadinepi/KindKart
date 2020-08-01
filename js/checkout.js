@@ -42,7 +42,6 @@ function getInfo() {
         else{
             document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
         }
-
     });
 }
 
@@ -50,6 +49,26 @@ function getInfo() {
 var domain = "this Website";
 var brand = "this Company";
 var overall = "N/A";
+
+// function to get coupons and put them into the html
+var parseCoupons = function(coupons, domain) {
+
+    try{
+        var couponHTML = '';
+        for (var key in coupons){
+            var coupon = coupons[key];
+            couponHTML += '<li><span class="code">'+coupon.code+'</span>'
+            +'<p class="desc">'+coupon.description+'</p></li>';
+    }
+    if(couponHTML ==''){
+        couponHTML = '<p>No coupons found</p>';
+}
+    document.getElementById('coupons').innerHTML = couponHTML;
+
+    }catch(e){
+        console.log('no coupons found', e);
+    }
+}
 
 
 // georgia's functions to output ethical rating of each brand
@@ -177,25 +196,6 @@ var submitCoupon_callback = function(resp, domain){
     alert('Coupon Submitted!');
 }
 
-// not rewritten
-var parseCoupons = function(coupons, domain) {
-
-    try{
-        var couponHTML = '';
-        for (var key in coupons){
-            var coupon = coupons[key];
-            couponHTML += '<li><span class="code">'+coupon.code+'</span>'
-            +'<p>'+coupon.description+'</p></li>';
-    }
-    if(couponHTML ==''){
-        couponHTML = '<p>No coupons found</p>';
-}
-    document.getElementById('coupons').innerHTML = couponHTML;
-
-    }catch(e){
-        console.log('no coupons found', e);
-    }
-}
 
 
 
