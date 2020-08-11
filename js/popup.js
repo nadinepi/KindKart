@@ -42,8 +42,8 @@ function getInfo() {
 }
 
 // initializing variables that are used by geInfo()
-var domain = "this Website";
-var brand = "this Company";
+var domain = "";
+var brand = "";
 var overall = "N/A";
 
 

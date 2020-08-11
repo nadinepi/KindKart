@@ -1,6 +1,6 @@
 body {
     width: 17em;
-    height: 30em;
+    height: auto;
     margin-top: 0.7em;
     margin-left: 1.25em;
     margin-bottom: 1.25em;
@@ -10,6 +10,8 @@ body {
     background-repeat: no-repeat;
     background-position: 14.5em 0em;
     background-size: 4em;
+    background-color: #cea5ecc0;
+
 }
 
 h1 {
@@ -19,9 +21,21 @@ h1 {
 }
 
 .heading {
-    font-size: 1.1em;
+    font-size: 1.25em;
+    text-align: center;
+    margin: 0;
+    color: white;
 }
 
-.pink {
-    color: #d376b1;
+.white {
+    color: white;
+}
+
+hr {
+    border: 1px solid white;
+    margin-bottom: 0.45em;
+}
+
+.darkpurple {
+    color: #4a1074;
 }
