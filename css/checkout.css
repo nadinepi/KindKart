@@ -47,5 +47,35 @@ li {
     padding: 0.4em;
     margin: 0.4em;
     cursor: pointer;
+    margin-top: 1em;
 
+}
+
+label {
+    display: block;
+    margin: 0;
+    font-size: 0.9em;
+    color: #4a1074;
+}
+
+input {
+    display: block;
+    margin-bottom: 0.4em;
+    border: none;
+}
+
+.form {
+    margin-left: 17%;
+}
+
+#x {
+    text-align: right;
+    margin-right: 0.5em;
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #4a1074;
+}
+
+.inputdesc {
+    margin-bottom: 1.5em;
 }

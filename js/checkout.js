@@ -184,8 +184,11 @@ var words = searchTerm(slash);
 
 // function that executes when "Submit Coupon" is clicked
 var submitCouponButton = function(){
-    document.querySelector('.codepart').innerHTML = '<label>Code:</label><input type="text" class="inputcode"/>';
-    document.querySelector('.descpart').innerHTML = '<label>Description:</label><input type="text" class="inputdesc"/>';
+    document.getElementById('submitpart').style.display = 'block';
+    document.getElementById('hr').innerHTML = '<hr>';
+    document.getElementById('x').innerHTML = 'x';
+    document.querySelector('.codepart').innerHTML = '<div class="form"><label>Code</label><input type="text" class="inputcode"/></div>';
+    document.querySelector('.descpart').innerHTML = '<div class="form"><label>Description</label><input type="text" class="inputdesc"/></div>';
     document.getElementById('submitcoupon').style.display = 'none';
     document.getElementById('submit').className = "submit-button";
     document.getElementById('submit').innerHTML = 'Submit';
@@ -193,16 +196,28 @@ var submitCouponButton = function(){
 
 // function that executes when "Submit" is clicked
 var submitCoupon = function(code, desc, domain){
-    console.log('submit coupon', {code: code, desc: desc, domain: domain});
-    chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
-        submitCoupon_callback(response.data, domain);
-    });
-}
+    if (code == "" || desc=="")
+        return false;
+
+    else{
+        console.log('submit coupon', {code: code, desc: desc, domain: domain});
+        chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
+            submitCoupon_callback(response.data, domain);
+        });
+    }
+}   
+
 
 var submitCoupon_callback = function(resp, domain){
     console.log('Resp:', resp);
     alert('Coupon Submitted!');
     location.reload();
+}
+
+// function that executes when the x is clicked
+var closeSubmit = function(){
+    document.getElementById('submitpart').style.display = 'none';
+    document.getElementById('submitcoupon').style.display = 'block';
 }
 
 
@@ -218,38 +233,37 @@ var copyToClipboard = function(str){
     return result;
 }
 
+
 document.addEventListener('DOMContentLoaded', function() {
+    // making submitcoupon listen for a click
     var submitcoupon = document.getElementById('submitcoupon');
-    // onClick's logic below:
+    // onClick's logic below
     submitcoupon.addEventListener('click', function() {
         submitCouponButton();
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+    // making submit listen for a click
     var submit = document.getElementById('submit');
-    // onClick's logic below:
+    // onClick's logic below
     submit.addEventListener('click', function() {
         var code = document.querySelector('.inputcode').value;
         var desc = document.querySelector('.inputdesc').value;
         submitCoupon(code, desc, domain);
     });
+
+    // making the x button work by listening for click
+    var x = document.getElementById('x');
+    // onClick's logic below
+    x.addEventListener('click', function() {
+        closeSubmit();
+    });
 });
 
 var createEvents = function(){
-/*
-    document.querySelectorAll('._coupon__list .code').forEach(codeItem => {
+    document.querySelectorAll('.code').forEach(codeItem => {
         codeItem.addEventListener('click', event=> {
-            var codeStr = codeItem.innerHTML;
+            var codeStr = codeItem.innerHTML.toUpperCase();
             copyToClipboard(codeStr);
         });
     });
-
-    document.querySelector('.submit-button').addEventListener('click', function(event){
-        var code = document.querySelector('.code').value;
-        var desc = document.querySelector('.desc').value;
-        submitCoupon(code, desc, domain);
-    });
-    */
-
 }
