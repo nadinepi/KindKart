@@ -1,7 +1,7 @@
 {
     "name": "KindKart",
     "version": "0.1",
-    "description": "",
+    "description": "Add a little kindness to your cart!",
     "permissions": [
         "activeTab",
         "tabs",
