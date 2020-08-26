@@ -195,25 +195,3 @@ var copyToClipboard = function(str){
     document.body.removeChild(input);
     return result;
 }
-
-/* not rewritten
-var createEvents = function(){
-
-    document.querySelectorAll('._coupon__list .code').forEach(codeItem => {
-        codeItem.addEventListener('click', event=> {
-            var codeStr = codeItem.innerHTML;
-            copyToClipboard(codeStr);
-        });
-    });
-
-    document.querySelector('._submit-overlay .close').addEventListener('click', function(event){
-        document.querySelector('._submit-overlay').style.display = 'none';
-    });
-
-    document.querySelector('._submit-overlay .submit-coupon').addEventListener('click', function(event){
-        var code = document.querySelector('._submit-overlay .code').value;
-        var desc = document.querySelector('._submit-overlay .desc').value;
-        submitCoupon(code, desc, window.domain);
-    });
-}
-*/
