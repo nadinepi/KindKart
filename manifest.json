@@ -1,13 +1,12 @@
 {
     "name": "KindKart",
     "version": "0.1",
-    "description": "Coupons..",
+    "description": "",
     "permissions": [
         "activeTab",
-        "<all_urls>",
-        "declarativeContent",
         "tabs",
-        "storage"
+        "storage",
+        "identity"
     ],
     "background": {
         "page": "background.html",
