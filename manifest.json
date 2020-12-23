@@ -1,7 +1,7 @@
 {
-    "name": "Sethacks Project",
+    "name": "KindKart Version 2",
     "version": "0.1",
-    "description": "Coupons..",
+    "description": "Add a little kindness to your cart!",
     "permissions": [
         "activeTab",
         "<all_urls>",
@@ -14,14 +14,14 @@
     },
     "content_scripts": [
         {
-        "matches": ["https://www.sephora.com/ca/en/"],
+        "matches": ["<all_urls>"],
         "exclude_globs":["*checkout*"],
-        "js": ["app.js"],
+        "js": ["main.js"],
         "css": ["main.css"],
         "run_at": "document_end"
         },
         {
-        "matches": ["https://www.sephora.com/ca/en/"],
+        "matches": ["<all_urls>"],
         "exclude_globs": ["<all_urls>"],
         "include_globs": ["*checkout*"],
         "js":["checkout.js"],
@@ -29,9 +29,19 @@
         "run_at": "document_start"
         }
     ],
+
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "KindKart",
+        "default_icon": {   
+            "16" : "images/smallcart.png",
+            "48" : "images/cart.png"
+        }
+    },
+    
     "icons": {  "16" : "images/smallcart.png",
                 "48" : "images/cart.png",
-                "128": "images/KindKartLogo.png"},
+                "128": "images/kindkartlogowhite.png"},
 
     "manifest_version": 2,
     "web_accessible_resources": ["images/*"],
