@@ -74,20 +74,6 @@
     text-align: center;
 }
 
-._coupon__list #leftcol {
-    float: left;
-    width: 50%;
-}
-
-._coupon__list #rightcol {
-    float: right;
-    width: 50%;
-}
-
-._coupon__list #clearfix {
-    clear: both;
-}
-
 ._coupon__list p{
     font-family: sans-serif;
     line-height: 20px;
