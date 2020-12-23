@@ -1,23 +1,60 @@
-//Get current domain
-var domain = window.location.hostname;
-domain = domain.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
-var brand = "this Company";
-var overall = "N/A";
-var myid = chrome.i18n.getMessage("@@extension_id");
+console.log('popup running');
 
+chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
+    let url = tab.url;
+    console.log(url);
+    result = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+    
+    // store domain
+    chrome.storage.local.set({domain: result});  
 
-chrome.runtime.sendMessage({command: "fetch", data: {domain: domain}}, (response) => {
-    //response from the database (background.html > firebase.js)
-    parseCoupons(response.data, domain);
+    // do this here so that every time the tab is queried, the extension is updated
+    getInfo();      
 });
 
+function getInfo() {
+    // get domain from storage
+    chrome.storage.local.get(['domain'], function(data) {
+        domain = data.domain;
+        console.log(domain);
+
+        // getting ethical rating and putting it into popup.html
+        var ethicalrating = formatRatings(domain);
+        document.getElementById('ethicalrating').innerHTML = ethicalrating;
+
+        // putting brand into popup.html
+        document.getElementById('brand').textContent = brand;
+
+        // putting rating message into popup.html
+        if (overall == "N/A") {
+            document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
+        
+        }
+        else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+            document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
+        
+        }
+        else{
+            document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
+        }
+
+    });
+}
+
+// initializing variables that are used by geInfo()
+var domain = "";
+var brand = "";
+var overall = "N/A";
+
+
+// georgia's functions to output ethical rating of each brand
 var getRatings = function(domain) {
-    var ratings=[
-        ["Abercrombie & Fitch","D-" , "B-" ,"D-" , "A" ,"F" ,"F","abercrombie.com"],
-        [ "adidas","A" ,"A+" ,"A+" ,"D-" ,"B-" , "B-","adidas.ca"],
+    let ratings = [
+        ["Abercrombie & Fitch", "D-", "B-", "D-", "A", "F", "F", "abercrombie.com"],
+        ["adidas","A" ,"A+" ,"A+" ,"D-" ,"B-" , "B-","adidas.ca"],
         ["ALDI", "B-" ,"A+" ,"A-" ,"B+" ,"D-" , "D-","aldi.us"],
         ["Ally Fashion","F" ,"F ","F" ,"B-" ,"F" , "F","allyfashion.com"],
-        [ "Anthea Crawford","C" ,"A+" ,"D+" ,"F" ,"C-" , "C-","antheacrawford.com.au"],
+        ["Anthea Crawford","C" ,"A+" ,"D+" ,"F" ,"C-" , "C-","antheacrawford.com.au"],
         ["APG & Co","A" ,"A+" ,"A+" ,"C-" ,"B-" , "B-","apgandco.com"],
         ["Arcadia Group","-C+" ,"A+" ,"B" ,"A" ,"D- ", "D-","arcadiagroup.co.uk"],
         ['AS Colour','A' ,'A+' ,'A+' ,'C-' ,'B-' , 'B-','ascolour.com'],
@@ -60,11 +97,11 @@ var getRatings = function(domain) {
 
 var formatRatings = function(domain){
     if (getRatings(domain)[0]===undefined){
-        var str1 = "Sorry! We do not have a report for this website yet.";
+        var ethicalrating = "Sorry! We do not have a report for this website yet.";
     }
     else{
       var r = getRatings(domain);
-      str1 = "Overall: " + r[1] +"<br>"
+      ethicalrating = "Overall: " + r[1] +"<br>"
       +"Worker Empowerment: " + r[2]+"<br>"
       +"Supplier Relations: " + r[3]+"<br>"
       +"Transparency: " + r[4]+"<br>"
@@ -74,17 +111,27 @@ var formatRatings = function(domain){
       brand = r[0];
       overall = r[1];
     }
-    return str1;
+    return ethicalrating;
 }
 
-var str1 = formatRatings(domain);
+if (overall == "N/A") {
+    document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
 
+}
+else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+    document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
+
+}
+else{
+    document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
+}
 
 var ffDomain = window.location.href;
 
 var slashList = ffDomain.split("/");
 var slash = slashList[slashList.length-1];
 
+// alternative websites function
 var searchTerm = function(slash){
     var ins = true;
     var k = ["1", "  ", "2", "3","4","5","6","7","8","9", "0", "?", "="];
@@ -118,7 +165,11 @@ var searchTerm = function(slash){
     return newTerm.substr(0,45);
 }
 
+var words = searchTerm(slash);
 
+
+
+// not rewritten 
 var submitCoupon = function(code, desc, domain){
     console.log('submit coupon', {code: code, desc: desc, domain: domain});
     chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
@@ -126,89 +177,15 @@ var submitCoupon = function(code, desc, domain){
     });
 }
 
+//not rewritten
 var submitCoupon_callback = function(resp, domain){
     console.log('Resp:', resp);
     document.querySelector('._submit-overlay').style.display='none';
     alert('Coupon Submitted!');
 }
-var parseCoupons = function(coupons, domain) {
 
-    try{
-        var couponHTML = '';
-        for (var key in coupons){
-            var coupon = coupons[key];
-            couponHTML += '<li><span class="code">'+coupon.code+'</span>'
-            +'<p>'+coupon.description+'</p></li>';
-    }
-    if(couponHTML ==''){
-        couponHTML = '<p>No coupons found</p>';
-    }
 
-    var couponButton = document.createElement('div');
-    couponButton.className = '_coupon__button';
-    couponButton.innerHTML = '';
-    document.body.appendChild(couponButton);
-
-    var couponDisplay = document.createElement('div');
-    couponDisplay.className = '_coupon__list';
-    var words = searchTerm(slash);
-
-    
-    if (overall == "N/A") {
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
-    else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>Good website! Alternatives just in case...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
-    else{
-        couponDisplay.innerHTML = '<h1>KindKart</h1><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
-        +'<p id="ethics">'+str1+'</p><hr>'
-        +'<p>Uh oh. You may want to look at alternatives...</p>'
-        +'<a href="https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313.TR12.TRC2.A0.H0.Xclothing.TRS0&_nkw='+words+'&_sacat=0">Similar on Ebay</a>'
-        +'<a href="https://www.etsy.com/ca/search?q='+words+'">Similar on Etsy</a>'
-        +'<p>Or give back by donating coupons at checkout!</p>'
-        +'<p>List of available coupons for <strong>'+domain+'</strong></p>'
-        +'<p id="instruct">Click any coupon to copy</p>'
-        +'<ul>'+couponHTML+'</ul>'
-        +'<div class="submit-button">Submit Coupon</div>';
-        couponDisplay.style.display = 'none';
-        document.body.appendChild(couponDisplay);
-    }
-
-    var couponSubmitOverlay = document.createElement('div');
-    couponSubmitOverlay.className = '_submit-overlay';
-    couponSubmitOverlay.innerHTML = '<span class="close">x</span>'
-    +'<h3>Submit a coupon for this site</h3>'
-    +'<div></label>Code:</label><input type="text" class="code"/></div>'
-    +'<div><label>Description:</label><input type="text" class="desc"/></div>'
-    +'<div><button class="submit-coupon">Submit Coupon</button></div>'
-    couponSubmitOverlay.style.display = 'none';
-    document.body.appendChild(couponSubmitOverlay);
-
-    createEvents();
-
-    }catch(e){
-        console.log('no coupons found', e);
-    }
-}
-
+// not rewritten
 var copyToClipboard = function(str){
     var input = document.createElement('textarea');
     input.innerHTML = str;
@@ -217,36 +194,4 @@ var copyToClipboard = function(str){
     var result = document.execCommand('copy');
     document.body.removeChild(input);
     return result;
-}
-
-var createEvents = function(){
-
-    document.querySelectorAll('._coupon__list .code').forEach(codeItem => {
-        codeItem.addEventListener('click', event=> {
-            var codeStr = codeItem.innerHTML;
-            copyToClipboard(codeStr);
-        });
-    });
-
-    document.querySelector('._submit-overlay .close').addEventListener('click', function(event){
-        document.querySelector('._submit-overlay').style.display = 'none';
-    });
-
-    document.querySelector('._coupon__list .submit-button').addEventListener('click', function(event){
-        document.querySelector('._submit-overlay').style.display = 'block';
-    });
-
-    document.querySelector('._submit-overlay .submit-coupon').addEventListener('click', function(event){
-        var code = document.querySelector('._submit-overlay .code').value;
-        var desc = document.querySelector('._submit-overlay .desc').value;
-        submitCoupon(code, desc, window.domain);
-    });
-
-    document.querySelector('._coupon__button').addEventListener('click', function(event){
-        if(document.querySelector('._coupon__list').style.display == 'block'){
-            document.querySelector('._coupon__list').style.display = 'none';
-        }else{
-            document.querySelector('._coupon__list').style.display = 'block';
-        }
-    });
 }
