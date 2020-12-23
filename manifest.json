@@ -16,16 +16,16 @@
         {
         "matches": ["<all_urls>"],
         "exclude_globs":["*checkout*"],
-        "js": ["main.js"],
-        "css": ["main.css"],
+        "js": ["js/main.js"],
+        "css": ["css/main.css"],
         "run_at": "document_end"
         },
         {
         "matches": ["<all_urls>"],
         "exclude_globs": ["<all_urls>"],
         "include_globs": ["*checkout*"],
-        "js":["checkout.js"],
-        "css": ["checkout.css"],
+        "js":["js/checkout.js"],
+        "css": ["css/checkout.css"],
         "run_at": "document_start"
         }
     ],

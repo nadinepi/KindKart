@@ -1,0 +1,41 @@
+body {
+    width: 17em;
+    height: auto;
+    margin-top: 0.7em;
+    margin-left: 1.25em;
+    margin-bottom: 1.25em;
+    margin-right: 1.25em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/images/KindKartLogo.png');
+    background-repeat: no-repeat;
+    background-position: 14.5em 0em;
+    background-size: 4em;
+    background-color: #cea5ecc0;
+
+}
+
+h1 {
+    font-size: 2em;
+    margin-top: 0em;
+    color: white;
+}
+
+.heading {
+    font-size: 1.25em;
+    text-align: center;
+    margin: 0;
+    color: white;
+}
+
+.white {
+    color: white;
+}
+
+hr {
+    border: 1px solid white;
+    margin-bottom: 0.45em;
+}
+
+.darkpurple {
+    color: #4a1074;
+}

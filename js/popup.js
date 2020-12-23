@@ -169,29 +169,3 @@ var words = searchTerm(slash);
 
 
 
-// not rewritten 
-var submitCoupon = function(code, desc, domain){
-    console.log('submit coupon', {code: code, desc: desc, domain: domain});
-    chrome.runtime.sendMessage({command: "post", data: {code: code, desc: desc, domain: domain}}, (response) => {
-        submitCoupon_callback(response.data, domain);
-    });
-}
-
-//not rewritten
-var submitCoupon_callback = function(resp, domain){
-    console.log('Resp:', resp);
-    document.querySelector('._submit-overlay').style.display='none';
-    alert('Coupon Submitted!');
-}
-
-
-// not rewritten
-var copyToClipboard = function(str){
-    var input = document.createElement('textarea');
-    input.innerHTML = str;
-    document.body.appendChild(input);
-    input.select();
-    var result = document.execCommand('copy');
-    document.body.removeChild(input);
-    return result;
-}
