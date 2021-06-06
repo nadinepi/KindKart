@@ -10,29 +10,26 @@ body {
     background-repeat: no-repeat;
     background-position: 14.5em 0em;
     background-size: 4em;
-    background-color: #cea5ecc0;
+    background-color: white;
 
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.3em;
     margin-top: 0em;
-    color: white;
+    color: black;
 }
 
 .heading {
     font-size: 1.25em;
     text-align: center;
     margin: 0;
-    color: white;
+    color: grey;
 }
 
-.white {
-    color: white;
-}
 
 hr {
-    border: 1px solid white;
+    border: 0.5px solid black;
     margin-bottom: 0.45em;
 }
 

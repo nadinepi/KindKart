@@ -112,7 +112,15 @@ var parseCoupons = function(coupons, domain) {
     var couponDisplay = document.createElement('div');
     couponDisplay.className = '_coupon__list';
 
-    if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
+    if (overall == "N/A"){
+        couponDisplay.innerHTML = '<h1>KindKart</h1>'
+        +'<div><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
+        +'<div><p id="message" style="color: grey">No information</p></div>'
+        couponDisplay.style.display = 'block';
+        document.body.appendChild(couponDisplay);
+    }
+
+    else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
         +'<div><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'
         +'<div><p id="message" style="color: #45BF77">This company has satisfactory ethics! :)</p></div>'
@@ -125,6 +133,7 @@ var parseCoupons = function(coupons, domain) {
         document.body.appendChild(couponDisplay);
 
     }
+
     else {
         couponDisplay.innerHTML = '<h1>KindKart</h1>'
         +'<div><p id="ethicalrating">Ethical Rating for <strong>'+brand+'</strong></p>'

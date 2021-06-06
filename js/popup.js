@@ -27,15 +27,15 @@ function getInfo() {
 
         // putting rating message into popup.html
         if (overall == "N/A") {
-            document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
+            document.getElementById('alternativesites').innerHTML = "";
         
         }
         else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-            document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
+            document.getElementById('alternativesites').innerHTML = "Good website! Alternatives just in case...";
         
         }
         else{
-            document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
+            document.getElementById('alternativesites').innerHTML = "Uh oh. You may want to look at alternatives...";
         }
 
     });
@@ -112,18 +112,6 @@ var formatRatings = function(domain){
       overall = r[1];
     }
     return ethicalrating;
-}
-
-if (overall == "N/A") {
-    document.getElementById('ratingmessage').innerHTML = "Alternative Sites";
-
-}
-else if (overall == "A" || overall == "B+" || overall == "B" || overall == "B-"){
-    document.getElementById('ratingmessage').innerHTML = "Good website! Alternatives just in case...";
-
-}
-else{
-    document.getElementById('ratingmessage').innerHTML = "Uh oh. You may want to look at alternatives...";
 }
 
 var ffDomain = window.location.href;
